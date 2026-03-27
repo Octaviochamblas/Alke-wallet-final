@@ -4,6 +4,9 @@ from .models import Cuenta, Transaccion
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from decimal import Decimal
+from django.contrib import messages
+
 
 def inicio(request):
     return redirect('cuenta_list')
@@ -49,8 +52,64 @@ class TransaccionListView(LoginRequiredMixin, ListView):
     context_object_name = 'transacciones'
 
 
+
 class TransaccionCreateView(LoginRequiredMixin, CreateView):
     model = Transaccion
     template_name = 'gestion/transaccion_form.html'
-    fields = ['cuenta', 'tipo', 'monto', 'descripcion']
+    fields = ['cuenta', 'cuenta_destino', 'tipo', 'monto', 'descripcion']
     success_url = reverse_lazy('transaccion_list')
+
+    def form_valid(self, form):
+        transaccion = form.save(commit=False)
+        cuenta = transaccion.cuenta
+        cuenta_destino = transaccion.cuenta_destino
+        monto = transaccion.monto
+
+        if transaccion.tipo in ['deposito', 'retiro']:
+            transaccion.cuenta_destino = None
+            cuenta_destino = None
+
+        if transaccion.tipo == 'deposito':
+            if not cuenta:
+                form.add_error('cuenta', 'Debes seleccionar una cuenta para el depósito.')
+                return self.form_invalid(form)
+            cuenta.saldo += monto
+            cuenta.save()
+
+        elif transaccion.tipo == 'retiro':
+            if not cuenta:
+                form.add_error('cuenta', 'Debes seleccionar una cuenta para el retiro.')
+                return self.form_invalid(form)
+            if cuenta.saldo < monto:
+                form.add_error('monto', 'Saldo insuficiente para realizar el retiro.')
+                return self.form_invalid(form)
+            cuenta.saldo -= monto
+            cuenta.save()
+
+        elif transaccion.tipo == 'transferencia':
+            if not cuenta:
+                form.add_error('cuenta', 'Debes seleccionar una cuenta de origen.')
+                return self.form_invalid(form)
+
+            if not cuenta_destino:
+                form.add_error('cuenta_destino', 'Debes seleccionar una cuenta de destino.')
+                return self.form_invalid(form)
+
+            if cuenta == cuenta_destino:
+                form.add_error('cuenta_destino', 'La cuenta de destino no puede ser la misma que la de origen.')
+                return self.form_invalid(form)
+
+            if cuenta.saldo < monto:
+                form.add_error('monto', 'Saldo insuficiente para realizar la transferencia.')
+                return self.form_invalid(form)
+
+            cuenta.saldo -= monto
+            cuenta_destino.saldo += monto
+            cuenta.save()
+            cuenta_destino.save()
+
+        self.object = transaccion
+        self.object.save()
+
+        messages.success(self.request, 'Transacción registrada correctamente.')
+        return redirect(self.success_url)
