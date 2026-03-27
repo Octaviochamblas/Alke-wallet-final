@@ -1,19 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Listado de cuentas</h1>
-<a href="{% url 'cuenta_create' %}">Crear cuenta</a>
+<section class="page-header">
+    <h1>Listado de cuentas</h1>
+    <p>Revisa las cuentas registradas y administra su información.</p>
+</section>
 
-<ul>
-    {% for cuenta in cuentas %}
-        <li>
-            {{ cuenta.numero_cuenta }} - {{ cuenta.cliente }} - ${{ cuenta.saldo }}
-            <a href="{% url 'cuenta_detail' cuenta.pk %}">Ver</a>
-            <a href="{% url 'cuenta_update' cuenta.pk %}">Editar</a>
-            <a href="{% url 'cuenta_delete' cuenta.pk %}">Eliminar</a>
-        </li>
-    {% empty %}
-        <li>No hay cuentas registradas.</li>
-    {% endfor %}
-</ul>
+<a class="btn" href="{% url 'cuenta_create' %}">Crear cuenta</a>
+
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Cliente</th>
+                <th>Tipo</th>
+                <th>Saldo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cuenta in cuentas %}
+            <tr>
+                <td>{{ cuenta.numero_cuenta }}</td>
+                <td>{{ cuenta.cliente }}</td>
+                <td>{{ cuenta.get_tipo_cuenta_display }}</td>
+                <td>${{ cuenta.saldo }}</td>
+                <td>
+                    {% if cuenta.activa %}
+                        Activa
+                    {% else %}
+                        Inactiva
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'cuenta_detail' cuenta.pk %}">Ver</a>
+                    <a href="{% url 'cuenta_update' cuenta.pk %}">Editar</a>
+                    <a href="{% url 'cuenta_delete' cuenta.pk %}">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No hay cuentas registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

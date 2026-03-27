@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Bienvenido a Alke Wallet</h1>
+    <p>
+        Sistema web para gestionar clientes, cuentas y transacciones de forma simple.
+    </p>
+
+    <div class="hero-actions">
+        <a class="btn" href="{% url 'cuenta_list' %}">Ver cuentas</a>
+        <a class="btn" href="{% url 'cuenta_create' %}">Crear cuenta</a>
+        <a class="btn" href="{% url 'transaccion_list' %}">Ver transacciones</a>
+        <a class="btn" href="{% url 'transaccion_create' %}">Registrar transacción</a>
+    </div>
+</section>
+
+<section class="info-card">
+    <h2>¿Cómo funciona el sistema?</h2>
+    <ol>
+        <li>Primero debe existir un cliente registrado.</li>
+        <li>Luego puedes crear una cuenta asociada a ese cliente.</li>
+        <li>Después puedes registrar transacciones sobre esa cuenta.</li>
+    </ol>
+    <p>
+        Si un cliente no aparece en el formulario, puedes crearlo desde el panel de administración.
+    </p>
+</section>
+{% endblock %}

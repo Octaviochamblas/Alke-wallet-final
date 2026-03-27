@@ -1,16 +1,39 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Listado de transacciones</h1>
-<a href="{% url 'transaccion_create' %}">Crear transacción</a>
+<section class="page-header">
+    <h1>Listado de transacciones</h1>
+    <p>Consulta los movimientos registrados en las cuentas.</p>
+</section>
 
-<ul>
-    {% for transaccion in transacciones %}
-        <li>
-            {{ transaccion.cuenta.numero_cuenta }} - {{ transaccion.get_tipo_display }} - ${{ transaccion.monto }}
-        </li>
-    {% empty %}
-        <li>No hay transacciones registradas.</li>
-    {% endfor %}
-</ul>
+<a class="btn" href="{% url 'transaccion_create' %}">Crear transacción</a>
+
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Cuenta</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Descripción</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaccion in transacciones %}
+            <tr>
+                <td>{{ transaccion.cuenta.numero_cuenta }}</td>
+                <td>{{ transaccion.get_tipo_display }}</td>
+                <td>${{ transaccion.monto }}</td>
+                <td>{{ transaccion.descripcion|default:"Sin descripción" }}</td>
+                <td>{{ transaccion.fecha }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No hay transacciones registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
