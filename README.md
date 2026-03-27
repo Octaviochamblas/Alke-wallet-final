@@ -1,10 +1,10 @@
 # Alke Wallet Final
 
-Proyecto desarrollado con Django como parte del módulo 7, enfocado en la construcción de una aplicación web con operaciones CRUD, uso de modelos relacionales, autenticación, panel de administración, archivos estáticos y buenas prácticas básicas de desarrollo con Git y GitHub.
+Proyecto desarrollado con Django como parte del módulo 7, orientado a la construcción de una aplicación web con operaciones CRUD, uso de modelos relacionales, autenticación, panel de administración, archivos estáticos y control de versiones con Git y GitHub.
 
 ## Objetivo del proyecto
 
-Desarrollar una aplicación web tipo billetera digital que permita gestionar clientes, cuentas y transacciones, utilizando Django como framework principal, SQLite en desarrollo y una estructura preparada para PostgreSQL en producción.
+Desarrollar una aplicación web tipo billetera digital que permita gestionar clientes, cuentas y transacciones, incorporando lógica funcional para depósitos, retiros y transferencias entre cuentas, utilizando Django como framework principal, SQLite en desarrollo y una estructura preparada para PostgreSQL en producción.
 
 ## Tecnologías utilizadas
 
@@ -13,6 +13,7 @@ Desarrollar una aplicación web tipo billetera digital que permita gestionar cli
 - SQLite
 - HTML
 - CSS
+- JavaScript
 - Git
 - GitHub
 
@@ -56,6 +57,10 @@ La aplicación incluye las siguientes funcionalidades:
 - Gestión de clientes
 - Gestión de cuentas
 - Gestión de transacciones
+- Depósitos que aumentan el saldo de una cuenta
+- Retiros que descuentan saldo y validan fondos suficientes
+- Transferencias entre cuentas con cuenta de origen y cuenta de destino
+- Validación para evitar transferencias a la misma cuenta
 - Visualización de datos en listados web
 - Formularios para crear registros
 - Vista de detalle de cuenta
@@ -63,8 +68,9 @@ La aplicación incluye las siguientes funcionalidades:
 - Eliminación de cuentas
 - Integración con panel de administración de Django
 - Autenticación con login y logout
+- Protección de vistas con autenticación
 - Uso de archivos estáticos
-- Navegación entre vistas
+- Navegación mejorada con página de inicio
 - Versionado con Git y trabajo en ramas
 
 ## Modelos del sistema
@@ -100,6 +106,7 @@ Representa una operación realizada sobre una cuenta.
 Campos principales:
 
 - `cuenta`
+- `cuenta_destino`
 - `tipo`
 - `monto`
 - `descripcion`
@@ -110,6 +117,21 @@ Campos principales:
 - Un `Cliente` tiene una relación `OneToOne` con `User`
 - Un `Cliente` puede tener muchas `Cuenta`
 - Una `Cuenta` puede tener muchas `Transaccion`
+- Una `Transaccion` puede incluir una `cuenta_destino` cuando el tipo es transferencia
+
+## Lógica funcional de transacciones
+
+El sistema implementa lógica de negocio en la creación de transacciones:
+
+- **Depósito:** suma el monto al saldo de la cuenta seleccionada
+- **Retiro:** resta el monto al saldo de la cuenta, validando que exista saldo suficiente
+- **Transferencia:** descuenta el monto de la cuenta de origen y lo suma a la cuenta de destino
+
+Además:
+
+- No se permite transferir a la misma cuenta
+- La cuenta destino solo se utiliza en transferencias
+- El formulario oculta la cuenta destino cuando el tipo de transacción es depósito o retiro
 
 ## Requisitos previos
 
@@ -248,12 +270,23 @@ Durante el desarrollo se trabajó con:
 - operaciones CRUD desde la shell
 - filtros con ORM
 - consultas relacionadas entre modelos
-- consultas agregadas como `annotate()`
-- ejemplo de consulta SQL personalizada con `raw()`
+- consultas agregadas
+- consultas SQL personalizadas con `raw()`
+- verificación de migraciones con `showmigrations`
+
+## Interfaz y experiencia de usuario
+
+Se incorporaron mejoras de usabilidad para hacer la aplicación más intuitiva:
+
+- página de inicio con accesos principales
+- tablas para cuentas y transacciones
+- mensajes de éxito en operaciones
+- estilos CSS para navegación, formularios y listados
+- campo de cuenta destino visible solo cuando la transacción es transferencia
 
 ## Archivos estáticos
 
-Se incorporó una hoja de estilos CSS para mejorar la presentación básica de la aplicación.
+Se incorporó una hoja de estilos CSS para mejorar la presentación de la aplicación.
 
 Ruta utilizada:
 
@@ -263,29 +296,24 @@ static/css/styles.css
 
 ## Control de versiones
 
-El proyecto fue desarrollado utilizando Git y GitHub, con commits progresivos y trabajo mediante ramas.
+El proyecto fue desarrollado utilizando Git y GitHub, con commits progresivos, ramas de trabajo y merges a `main`.
 
-Ejemplo de flujo utilizado:
+Ramas utilizadas durante el desarrollo:
 
-- inicialización del proyecto
-- creación de app
-- definición de modelos
-- migraciones
-- vistas y templates
-- CRUD web
-- autenticación
-- mejoras visuales
-- documentación final
+- `feature/modelos`
+- `feature/crud`
+- `feature/transferencias`
 
 ## Posibles mejoras futuras
 
-- Mejorar diseño visual con Bootstrap
 - Asociar automáticamente cuentas al usuario autenticado
 - Agregar validaciones más avanzadas en formularios
 - Incorporar búsqueda y filtros en los listados
 - Agregar paginación
 - Mejorar permisos por tipo de usuario
-- Implementar reportes de movimientos
+- Incorporar historial detallado de transferencias
+- Implementar eliminación o edición de transacciones con recalculo de saldo
+- Mejorar aún más la interfaz con un framework visual como Bootstrap
 
 ## Autor
 
@@ -293,4 +321,4 @@ Proyecto desarrollado por Octavio Chamblas Navarrete.
 
 ## Estado del proyecto
 
-Proyecto funcional en entorno de desarrollo, con CRUD web, autenticación, administración y estructura preparada para continuar escalando.
+Proyecto funcional en entorno de desarrollo, con CRUD web, autenticación, administración, transacciones operativas y transferencias entre cuentas, además de una estructura preparada para continuar escalando.
