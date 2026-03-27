@@ -119,3 +119,6 @@ STATIC_URL = 'static/'
 
 LOGIN_REDIRECT_URL = 'cuenta_list'
 LOGOUT_REDIRECT_URL = 'login'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
