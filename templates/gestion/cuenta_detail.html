@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Detalle de cuenta</h1>
+<p>Número: {{ cuenta.numero_cuenta }}</p>
+<p>Cliente: {{ cuenta.cliente }}</p>
+<p>Tipo: {{ cuenta.get_tipo_cuenta_display }}</p>
+<p>Saldo: ${{ cuenta.saldo }}</p>
+<p>Activa: {{ cuenta.activa }}</p>
+
+<a href="{% url 'cuenta_list' %}">Volver</a>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Listado de transacciones</h1>
+<a href="{% url 'transaccion_create' %}">Crear transacción</a>
+
+<ul>
+    {% for transaccion in transacciones %}
+        <li>
+            {{ transaccion.cuenta.numero_cuenta }} - {{ transaccion.get_tipo_display }} - ${{ transaccion.monto }}
+        </li>
+    {% empty %}
+        <li>No hay transacciones registradas.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
