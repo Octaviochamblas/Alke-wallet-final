@@ -1,7 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Cuenta, Transaccion
+from django.shortcuts import redirect
 
+def inicio(request):
+    return redirect('cuenta_list')
 
 class CuentaListView(ListView):
     model = Cuenta

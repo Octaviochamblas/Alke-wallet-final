@@ -1,10 +1,13 @@
 from django.urls import path
 from .views import (
-    CuentaListView, CuentaDetailView, CuentaCreateView, CuentaUpdateView, CuentaDeleteView,
+    inicio,
+    CuentaListView, CuentaDetailView, CuentaCreateView,
+    CuentaUpdateView, CuentaDeleteView,
     TransaccionListView, TransaccionCreateView
 )
 
 urlpatterns = [
+    path('', inicio, name='inicio'),
     path('cuentas/', CuentaListView.as_view(), name='cuenta_list'),
     path('cuentas/nueva/', CuentaCreateView.as_view(), name='cuenta_create'),
     path('cuentas/<int:pk>/', CuentaDetailView.as_view(), name='cuenta_detail'),
