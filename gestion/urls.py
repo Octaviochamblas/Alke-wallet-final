@@ -16,4 +16,5 @@ urlpatterns = [
 
     path('transacciones/', TransaccionListView.as_view(), name='transaccion_list'),
     path('transacciones/nueva/', TransaccionCreateView.as_view(), name='transaccion_create'),
+    
 ]
