@@ -12,7 +12,8 @@
     <table class="data-table">
         <thead>
             <tr>
-                <th>Cuenta</th>
+                <th>Cuenta origen</th>
+                <th>Cuenta destino</th>
                 <th>Tipo</th>
                 <th>Monto</th>
                 <th>Descripción</th>
@@ -22,7 +23,14 @@
         <tbody>
             {% for transaccion in transacciones %}
             <tr>
-                <td>{{ transaccion.cuenta.numero_cuenta }}</td>
+                <td>{{ transaccion.cuenta.numero_cuenta|default:"-" }}</td>
+                <td>
+                    {% if transaccion.cuenta_destino %}
+                        {{ transaccion.cuenta_destino.numero_cuenta }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
                 <td>{{ transaccion.get_tipo_display }}</td>
                 <td>${{ transaccion.monto }}</td>
                 <td>{{ transaccion.descripcion|default:"Sin descripción" }}</td>
@@ -30,7 +38,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5">No hay transacciones registradas.</td>
+                <td colspan="6">No hay transacciones registradas.</td>
             </tr>
             {% endfor %}
         </tbody>

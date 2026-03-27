@@ -4,17 +4,70 @@
 <section class="page-header">
     <h1>Formulario de transacción</h1>
     <p>
-        Registra un movimiento asociado a una cuenta existente.
+        Registra un depósito, retiro o transferencia.
+    </p>
+    <p>
+        Para una transferencia, debes indicar una cuenta de origen y una cuenta de destino distintas.
     </p>
 </section>
 
 <div class="form-card">
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        <p>
+            {{ form.cuenta.label_tag }}
+            {{ form.cuenta }}
+            {{ form.cuenta.errors }}
+        </p>
+
+        <p id="cuenta-destino-group">
+            {{ form.cuenta_destino.label_tag }}
+            {{ form.cuenta_destino }}
+            {{ form.cuenta_destino.errors }}
+        </p>
+
+        <p>
+            {{ form.tipo.label_tag }}
+            {{ form.tipo }}
+            {{ form.tipo.errors }}
+        </p>
+
+        <p>
+            {{ form.monto.label_tag }}
+            {{ form.monto }}
+            {{ form.monto.errors }}
+        </p>
+
+        <p>
+            {{ form.descripcion.label_tag }}
+            {{ form.descripcion }}
+            {{ form.descripcion.errors }}
+        </p>
+
         <button type="submit" class="btn">Guardar</button>
     </form>
 
     <a href="{% url 'transaccion_list' %}" class="back-link">Volver</a>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tipoSelect = document.getElementById("id_tipo");
+    const cuentaDestinoGroup = document.getElementById("cuenta-destino-group");
+    const cuentaDestinoSelect = document.getElementById("id_cuenta_destino");
+
+    function toggleCuentaDestino() {
+        if (tipoSelect.value === "transferencia") {
+            cuentaDestinoGroup.style.display = "block";
+        } else {
+            cuentaDestinoGroup.style.display = "none";
+            cuentaDestinoSelect.value = "";
+        }
+    }
+
+    toggleCuentaDestino();
+    tipoSelect.addEventListener("change", toggleCuentaDestino);
+});
+</script>
 {% endblock %}

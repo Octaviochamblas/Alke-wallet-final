@@ -39,11 +39,26 @@ class Transaccion(models.Model):
         ('transferencia', 'Transferencia'),
     ]
 
-    cuenta = models.ForeignKey(Cuenta, on_delete=models.CASCADE, related_name='transacciones')
+    cuenta = models.ForeignKey(
+        Cuenta,
+        on_delete=models.CASCADE,
+        related_name='transacciones',
+        blank=True,
+        null=True
+    )
+    cuenta_destino = models.ForeignKey(
+        Cuenta,
+        on_delete=models.CASCADE,
+        related_name='transferencias_recibidas',
+        blank=True,
+        null=True
+    )
     tipo = models.CharField(max_length=20, choices=TIPO_TRANSACCION_CHOICES)
     monto = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0.01)])
     descripcion = models.CharField(max_length=255, blank=True, null=True)
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.tipo} - {self.monto} - {self.cuenta.numero_cuenta}"
+        if self.tipo == 'transferencia' and self.cuenta_destino:
+            return f"{self.tipo} - {self.monto} - {self.cuenta.numero_cuenta} a {self.cuenta_destino.numero_cuenta}"
+        return f"{self.tipo} - {self.monto} - {self.cuenta.numero_cuenta if self.cuenta else 'Sin cuenta'}"

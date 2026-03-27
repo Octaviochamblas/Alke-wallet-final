@@ -17,6 +17,6 @@ class CuentaAdmin(admin.ModelAdmin):
 
 @admin.register(Transaccion)
 class TransaccionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cuenta', 'tipo', 'monto', 'fecha')
-    search_fields = ('cuenta__numero_cuenta', 'descripcion')
+    list_display = ('id', 'cuenta', 'cuenta_destino', 'tipo', 'monto', 'fecha')
+    search_fields = ('cuenta__numero_cuenta', 'cuenta_destino__numero_cuenta', 'descripcion')
     list_filter = ('tipo', 'fecha')
