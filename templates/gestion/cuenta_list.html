@@ -8,9 +8,6 @@
     {% for cuenta in cuentas %}
         <li>
             {{ cuenta.numero_cuenta }} - {{ cuenta.cliente }} - ${{ cuenta.saldo }}
-            <a href="{% url 'cuenta_detail' cuenta.pk %}">Ver</a>
-            <a href="{% url 'cuenta_update' cuenta.pk %}">Editar</a>
-            <a href="{% url 'cuenta_delete' cuenta.pk %}">Eliminar</a>
         </li>
     {% empty %}
         <li>No hay cuentas registradas.</li>
