@@ -1,12 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Detalle de cuenta</h1>
-<p>Número: {{ cuenta.numero_cuenta }}</p>
-<p>Cliente: {{ cuenta.cliente }}</p>
-<p>Tipo: {{ cuenta.get_tipo_cuenta_display }}</p>
-<p>Saldo: ${{ cuenta.saldo }}</p>
-<p>Activa: {{ cuenta.activa }}</p>
+<section class="page-header">
+    <h1>Detalle de cuenta</h1>
+    <p>Consulta la información completa de la cuenta seleccionada.</p>
+</section>
 
-<a href="{% url 'cuenta_list' %}">Volver</a>
+<div class="detail-card">
+    <p><strong>Número:</strong> {{ cuenta.numero_cuenta }}</p>
+    <p><strong>Cliente:</strong> {{ cuenta.cliente }}</p>
+    <p><strong>Tipo:</strong> {{ cuenta.get_tipo_cuenta_display }}</p>
+    <p><strong>Saldo:</strong> ${{ cuenta.saldo }}</p>
+    <p><strong>Estado:</strong>
+        {% if cuenta.activa %}
+            Activa
+        {% else %}
+            Inactiva
+        {% endif %}
+    </p>
+</div>
+
+<div class="actions-row">
+    <a class="btn" href="{% url 'cuenta_update' cuenta.pk %}">Editar</a>
+    <a class="btn btn-danger" href="{% url 'cuenta_delete' cuenta.pk %}">Eliminar</a>
+    <a class="back-link" href="{% url 'cuenta_list' %}">Volver al listado</a>
+</div>
 {% endblock %}

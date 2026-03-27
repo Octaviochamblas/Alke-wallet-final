@@ -1,34 +1,168 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    color: #222;
-    background-color: #f7f7f7;
+    margin: 0;
+    background-color: #f4f6f8;
+    color: #1f2937;
 }
 
-nav {
-    margin-bottom: 20px;
+.topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dcdfe4;
+    padding: 18px 32px;
 }
 
-nav a {
-    margin-right: 12px;
+.brand a {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #0f172a;
+}
+
+.nav {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav a {
     text-decoration: none;
     color: #0a58ca;
     font-weight: 600;
 }
 
-nav a:hover {
+.nav a:hover {
     text-decoration: underline;
 }
 
-h1 {
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+}
+
+.hero,
+.info-card,
+.form-card,
+.detail-card {
+    background-color: #ffffff;
+    border: 1px solid #dcdfe4;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.hero h1 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 36px;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.page-header {
     margin-bottom: 20px;
 }
 
-form p {
-    margin-bottom: 12px;
+.page-header h1 {
+    margin-bottom: 8px;
 }
 
-button {
-    padding: 8px 14px;
+.btn {
+    display: inline-block;
+    background-color: #0a58ca;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
+    font-weight: 600;
+}
+
+.btn:hover {
+    opacity: 0.92;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+.btn-danger {
+    background-color: #c62828;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: #0a58ca;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.table-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #dcdfe4;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f8fafc;
+}
+
+.actions-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.user-info {
+    font-weight: 600;
+    color: #374151;
+}
+
+.logout-form {
+    display: inline;
+}
+
+form p {
+    margin-bottom: 14px;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-top: 6px;
+    box-sizing: border-box;
 }

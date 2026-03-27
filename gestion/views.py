@@ -3,9 +3,13 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from .models import Cuenta, Transaccion
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
 
 def inicio(request):
     return redirect('cuenta_list')
+
+class InicioView(TemplateView):
+    template_name = 'gestion/inicio.html'
 
 class CuentaListView(LoginRequiredMixin, ListView):
     model = Cuenta

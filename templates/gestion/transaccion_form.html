@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Formulario de transacción</h1>
+<section class="page-header">
+    <h1>Formulario de transacción</h1>
+    <p>
+        Registra un movimiento asociado a una cuenta existente.
+    </p>
+</section>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Guardar</button>
-</form>
+<div class="form-card">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Guardar</button>
+    </form>
 
-<a href="{% url 'transaccion_list' %}">Volver</a>
+    <a href="{% url 'transaccion_list' %}" class="back-link">Volver</a>
+</div>
 {% endblock %}

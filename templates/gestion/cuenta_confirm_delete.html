@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Eliminar cuenta</h1>
-<p>¿Seguro que deseas eliminar la cuenta {{ object.numero_cuenta }}?</p>
+<section class="page-header">
+    <h1>Eliminar cuenta</h1>
+    <p>Esta acción eliminará la cuenta seleccionada del sistema.</p>
+</section>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Sí, eliminar</button>
-</form>
+<div class="form-card">
+    <p>¿Seguro que deseas eliminar la cuenta <strong>{{ object.numero_cuenta }}</strong>?</p>
 
-<a href="{% url 'cuenta_list' %}">Cancelar</a>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+
+    <a href="{% url 'cuenta_list' %}" class="back-link">Cancelar</a>
+</div>
 {% endblock %}
